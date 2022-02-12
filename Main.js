@@ -1,4 +1,6 @@
-
+//import platform from './assets/platformA.png'
+//<script src="Main.js" type="module"></script>  <-- descobrir como corrigir o erro em index.html
+//o erro não permitiu a importação das classes separadas e nem de arquivos
 
 const canvas = document.querySelector('canvas')
 
@@ -34,8 +36,8 @@ class Jogador
         {
             this.velocity.y += gravidade;
         }
-        else
-            this.velocity.y = 0;
+        //else
+          //  this.velocity.y = 0;
     }
 }
 
@@ -56,8 +58,11 @@ class Plataforma
 }
 
 
-const jogador = new Jogador()
-const plataformas = [new Plataforma({x: 100, y: 600}), new Plataforma({x: 300, y: 200})]
+let jogador = new Jogador()
+let plataformas = [new Plataforma({x: 0, y: 700}),
+                     new Plataforma({x: 100, y: 600}), 
+                     new Plataforma({x: 300, y: 200}), 
+                     new Plataforma({x: 4500, y: 250})]
 
 const keys =
 {
@@ -73,6 +78,21 @@ const keys =
 
 let pontoPosicao = 0 //variavel que guarda o ponto onde o jogador se encontra
 
+
+function reset() //reseta quando o jogador cai
+{
+
+ jogador = new Jogador()
+ plataformas = [new Plataforma({x: 0, y: 700}),
+                     new Plataforma({x: 100, y: 600}), 
+                     new Plataforma({x: 300, y: 200}), 
+                     new Plataforma({x: 4500, y: 250})]
+
+
+
+pontoPosicao = 0 //variavel que guarda o ponto onde o jogador se encontra
+}
+
 function animacao()
 {   //cria uma animação para o movimento do jogador
     requestAnimationFrame(animacao);
@@ -83,7 +103,7 @@ function animacao()
             plataforma.desenhar();
         })
    
-
+        
     //ifs e elses para o movimento horizontal
     if(keys.direita.pressionado && jogador.position.x < 700)
     {
@@ -105,7 +125,7 @@ function animacao()
                     plataforma.position.x -= 5;
                 })
 
-        }
+        }/*
         else
         {
             if(keys.esquerda.pressionado)
@@ -117,7 +137,7 @@ function animacao()
                     })
 
             }
-        }
+        }*/
     }
 
     //ifs e elses para colisão com as plataformas
@@ -137,9 +157,21 @@ function animacao()
             }
         })
 
-        if(pontoPosicao > 5000) //distancia necessaria para vencer (posteriormente isso será uma distancia para troca de cenario para boss battle)
+        //condição de vitoria
+        if(jogador.position.x >= 4500 && jogador.position.y < 250)
+        {
+            
+        }
+
+        /*if(pontoPosicao > 5000) //distancia necessaria para vencer (posteriormente isso será uma distancia para troca de cenario para boss battle)
         {
             console.log('PARABÉNS! VOCÊ VENCEU!')
+        }*/
+
+        //condição de derrota
+        if(jogador.position.y > canvas.height)
+        {
+            reset()
         }
 }
 
