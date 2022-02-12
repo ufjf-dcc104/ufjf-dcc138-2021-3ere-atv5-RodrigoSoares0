@@ -71,6 +71,8 @@ const keys =
     }
 }
 
+let pontoPosicao = 0 //variavel que guarda o ponto onde o jogador se encontra
+
 function animacao()
 {   //cria uma animação para o movimento do jogador
     requestAnimationFrame(animacao);
@@ -83,7 +85,7 @@ function animacao()
    
 
     //ifs e elses para o movimento horizontal
-    if(keys.direita.pressionado && jogador.position.x < 400)
+    if(keys.direita.pressionado && jogador.position.x < 700)
     {
         jogador.velocity.x = 5
     }
@@ -99,6 +101,7 @@ function animacao()
         {
             plataformas.forEach(plataforma =>
                 {
+                    pontoPosicao += 5;
                     plataforma.position.x -= 5;
                 })
 
@@ -109,6 +112,7 @@ function animacao()
             {
                 plataformas.forEach(plataforma =>
                     {
+                        pontoPosicao -= 5;
                         plataforma.position.x += 5;
                     })
 
@@ -132,6 +136,11 @@ function animacao()
                 jogador.velocity.y = 0;
             }
         })
+
+        if(pontoPosicao > 5000) //distancia necessaria para vencer (posteriormente isso será uma distancia para troca de cenario para boss battle)
+        {
+            console.log('PARABÉNS! VOCÊ VENCEU!')
+        }
 }
 
 animacao();
