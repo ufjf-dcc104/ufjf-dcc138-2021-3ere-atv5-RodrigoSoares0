@@ -16,7 +16,7 @@ class Jogador
     {
         this.position = {x:100, y:600}
         this.velocity = {x:0, y:0}
-        this.width = 25
+        this.width = 10
         this.height = 25
     }
 
@@ -57,12 +57,40 @@ class Plataforma
     }
 }
 
+class Portal
+{
+    constructor({x, y})
+    {
+        this.position = {x, y}
+        this.width = 50;
+        this.height = 50;
+    }
+
+    desenhar()
+    {
+        c.fillStyle = 'gold'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+
+
+
+let fase = 1
+let quedas = 0
 
 let jogador = new Jogador()
+let portal = new Portal({x: 4500, y: 100})
 let plataformas = [new Plataforma({x: 0, y: 700}),
-                     new Plataforma({x: 100, y: 600}), 
-                     new Plataforma({x: 300, y: 200}), 
-                     new Plataforma({x: 4500, y: 250})]
+                     new Plataforma({x: 100, y: 500}), 
+                     new Plataforma({x: 300, y: 100}), 
+                     new Plataforma({x: 700, y: 680}), 
+                     new Plataforma({x: 1200, y: 200}),
+                     new Plataforma({x: 1800, y: 500}), 
+                     new Plataforma({x: 2400, y: 510}),
+                     new Plataforma({x: 3100, y: 700}),
+                     new Plataforma({x: 3800, y: 500}),   
+                     new Plataforma({x: 4500, y: 100})]
 
 const keys =
 {
@@ -81,20 +109,36 @@ let pontoPosicao = 0 //variavel que guarda o ponto onde o jogador se encontra
 
 function reset() //reseta quando o jogador cai
 {
-
+    
+quedas ++;
  jogador = new Jogador()
- plataformas = [new Plataforma({x: 0, y: 700}),
-                     new Plataforma({x: 100, y: 600}), 
-                     new Plataforma({x: 300, y: 200}), 
-                     new Plataforma({x: 4500, y: 250})]
-
+ let portal = new Portal({x: 4500, y: 100})
+ plataformas =  [new Plataforma({x: 0, y: 700}),
+                    new Plataforma({x: 100, y: 500}), 
+                    new Plataforma({x: 300, y: 100}), 
+                    new Plataforma({x: 700, y: 680}), 
+                    new Plataforma({x: 1200, y: 200}),
+                    new Plataforma({x: 1800, y: 500}), 
+                    new Plataforma({x: 2400, y: 510}),
+                    new Plataforma({x: 3100, y: 700}),
+                    new Plataforma({x: 3800, y: 500}),   
+                    new Plataforma({x: 4500, y: 100})]
 
 
 pontoPosicao = 0 //variavel que guarda o ponto onde o jogador se encontra
 }
 
+function contador()
+{
+    c.fillStyle = "white";
+    c.font = "20px Impact"
+    c.fillText("Quedas: " + quedas, 10, 20);
+}
+
 function animacao()
-{   //cria uma animação para o movimento do jogador
+{   
+
+    //cria uma animação para o movimento do jogador
     requestAnimationFrame(animacao);
     c.clearRect(0, 0, canvas.width, canvas.height);
     jogador.atualiza();
@@ -169,10 +213,14 @@ function animacao()
         }*/
 
         //condição de derrota
-        if(jogador.position.y > canvas.height)
+        if(jogador.position.y > canvas.height || jogador.position.y < -200) //limita o jogados à borda inferios e -200 da borda superior
         {
             reset()
         }
+
+        contador();
+
+    
 }
 
 animacao();

@@ -11,7 +11,12 @@
     
     <canvas></canvas>
     
-    <script src="Main.js"></script>
+    <script src="Main.js">
+        let canvas = document.querySelector("canvas");
+        let ctx = canvas.getContext("2d");
+        canvas.width = 1920;
+        canvas.height = 1080;
+    </script>
 </body>
 </html>
 
